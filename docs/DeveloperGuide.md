@@ -262,29 +262,29 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
-* prefer desktop apps over other types
-* can type fast
-* prefers typing to mouse interactions
-* is reasonably comfortable using CLI apps
+* An NUS CCA Leader or Interviewer involved in managing a recruitment drive
+* Has a need to record and track a significant number of applicants and interview outcomes
+* Prefers desktop CLI apps over mouse-driven interfaces
+* Can type fast and is comfortable with CLI applications
+* Works with teammates through a **single shared instance of the app**, which acts as the single source of truth for all recruitment data — no individual accounts needed
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**: Centralise applicant contact details and interview evaluations in a single offline platform, eliminating the need to juggle Google Sheets, Telegram messages, and Word documents — enabling faster and more accurate recruitment tracking than a typical GUI-driven app.
 
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                     | So that I can…​                                                        |
-| -------- | ------------------------------------------ | ------------------------------ | ---------------------------------------------------------------------- |
-| `* * *`  | new user                                   | see usage instructions         | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person               |                                                                        |
-| `* * *`  | user                                       | delete a person                | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name          | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details   | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name           | locate a person easily                                                 |
-
-*{More to be added}*
+| Priority | As a …​       | I want to …​                                               | So that I can…​                                                          |
+| -------- | ------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `* * *`  | CCA Leader    | add a new applicant with their Student ID and Phone Number | have a unique record for every person who signed up                      |
+| `* * *`  | CCA Leader    | view a consolidated list of all applicants and their interview statuses | track the overall progress of the recruitment drive     |
+| `* * *`  | CCA Leader    | delete an incorrect applicant entry                        | ensure the data remains accurate if a mistake was made during entry      |
+| `* *`    | CCA Leader    | search for an applicant by name or Student ID              | locate a specific applicant's record quickly                             |
+| `* * *`  | Interviewer   | add interview scores and comments to an existing applicant | keep all feedback tied to the applicant's profile in one place           |
+| `* *`    | Interviewer   | filter the list to show only applicants with "Pending" interviews | know exactly who I need to interview next                           |
+| `* *`    | Interviewer   | search for an applicant by name or phone number            | quickly pull up their record during a live interview session             |
+| `*`      | Interviewer   | undo a command                                             | quickly revert an accidental edit without re-typing                      |
 
 ### Use cases
 
@@ -318,15 +318,25 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+2.  Should be able to hold up to 1000 applicants without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-
-*{More to be added}*
+4.  The app must function entirely **offline** — no internet connection should be required at any point.
+5.  The app assumes **no login or authentication** — the current person holding the device is assumed to be authorised to edit data.
+6.  All data must be stored **locally** on the user's hard drive in a portable format (JSON).
 
 ### Glossary
 
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
+| Term | Definition |
+| :--- | :--- |
+| **Applicant** | A student who has applied for the CCA and exists as a record in the system, identified uniquely by their Phone Number or Student ID. |
+| **CCA Leader** | One of the two primary user roles. The CCA Leader oversees the entire recruitment process — they manage the applicant list, review overall interview outcomes, and make final admission decisions. They do not necessarily conduct interviews themselves. |
+| **Interviewer** | One of the two primary user roles. The Interviewer conducts face-to-face interview sessions with applicants and records scores and comments directly into the app. They focus on per-applicant data entry rather than overall recruitment management. |
+| **CLI** | Command Line Interface; the primary mode of interaction where users type text commands. |
+| **Interview Record** | A data entity attached to an Applicant containing a score (1–5), a result (Pass/Fail/Pending), and qualitative comments from the interview session. |
+| **Local App** | An application that stores all data on the computer's hard drive without requiring an internet connection. |
+| **Mainstream OS** | Windows, Linux, Unix, macOS. |
+| **Single Source of Truth** | The single shared app instance used by all CCA members (both Leaders and Interviewers) to ensure all recruitment data is consistent and centralised. |
+| **Unique Identifier** | A piece of data (Phone Number or Student ID) used to distinguish between applicants with the same name. |
 
 --------------------------------------------------------------------------------------------------------------------
 
