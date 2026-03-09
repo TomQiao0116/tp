@@ -288,41 +288,489 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `HRdex` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Delete a person**
+**UC1. Add an applicant record**
+
+**System:** HRdex
+
+**Use Case:** UC1 - Add applicant record
+
+**Actor:** CCA Leader
+
+**Precondition:** 
+- The application is running and user is at the main screen.
+
+**Guarantees:**
+
+- **Success guarantee:** A new applicant record with valid name, student ID and phone number is stored in the database.
+
+- **Failure guarantee:** No new applicant record is added.
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  CCA Leader enters the command to add an applicant record with a name, student ID and phone number.
+2.  HRdex validates the applicant name format.
+3.  HRdex validates the applicant student ID format.
+4.  HRdex validates the applicant phone number format.
+5.  HRdex checks whether the applicant student ID or phone number already exists in the database.
+6.  HRdex creates the new applicant record.
+7.  HRdex displays a success message with the applicant details.
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
+* 1a. Required parameters are missing.
 
-  Use case ends.
+   * 1a1. HRdex shows the correct command usage.
 
-* 3a. The given index is invalid.
+     Use case ends.
+     
+* 1b. A parameter is specified more than once.
 
-    * 3a1. AddressBook shows an error message.
+  * 1b1. HRdex shows an error message indicating that duplicate parameters are not allowed.
+ 
+    Use case ends.
 
-      Use case resumes at step 2.
+* 2a. The name format is invalid.
 
-*{More to be added}*
+  * 2a1. HRdex shows an error message indicating invalid name format.
 
+    Use case ends.
+
+* 3a. The student ID format is invalid.
+
+  * 3a1. HRdex shows an error message indicating invalid student ID format.
+
+    Use case ends.
+
+* 4a. The phone number format is invalid.
+
+    * 4a1. HRdex shows an error message indicating invalid phone number format.
+
+      Use case ends.
+
+* 5a. The student ID already exists in the database.
+
+    * 5a1. HRdex shows an error message that the applicant already exists.
+
+      Use case ends.
+
+* 5b. The phone number already exists in the database.
+
+    * 5b1. HRdex shows an error message that the applicant already exists.
+
+      Use case ends.
+
+**UC2. Delete an applicant record**
+
+**System:** HRdex
+
+**Use Case:** UC2 - Delete applicant record
+
+**Actor:** CCA Leader
+
+**Precondition:** 
+- The application is running and the user is at the main screen.
+
+**Guarantees:**
+
+- **Success guarantee:** The applicant record is removed from the database. Any associated interview record is also removed.
+
+- **Failure guarantee:** No records are deleted.
+
+**MSS**
+
+1.  CCA Leader enters the command to delete an applicant using the applicant's student ID or phone number.
+2.  HRdex validates the identifier format.
+3.  HRdex searches for the matching applicant record.
+4.  HRdex deletes the applicant record.
+5.  HRdex deletes the applicant's associated interview record if it exists.
+6.  HRdex displays a success message.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. Required parameters are missing.
+
+   * 1a1. HRdex shows the correct command usage.
+
+     Use case ends.
+
+* 2a. The student ID format is invalid.
+
+  * 2a1. HRdex shows an error message indicating invalid student ID format.
+
+    Use case ends.
+
+* 2b. The phone number format is invalid.
+
+    * 2b1. HRdex shows an error message indicating invalid phone number format.
+
+      Use case ends.
+
+* 3a. No applicant matches the student ID or phone number.
+
+    * 3a1. HRdex shows an error message indicating that the applicant does not exist.
+
+      Use case ends.
+
+**UC3. View a full applicant record**
+
+**System:** HRdex
+
+**Use Case:** UC3 - View a full applicant record
+
+**Actor:** CCA Leader
+
+**Precondition:** 
+- The application is running and the user is at the main screen.
+
+**Guarantees:**
+
+- **Success guarantee:** The system displays the applicant's full record, including interview details if available.
+
+- **Failure guarantee:** No record is displayed.
+
+**MSS**
+
+1.  CCA Leader enters the command to view an applicant record using applicant's name or student ID.
+2.  HRdex validates the identifier format.
+3.  HRdex searches for the matching applicant record.
+4.  HRdex finds exactly one matching applicant.
+5.  HRdex retrieves the applicant’s personal details.
+6.  HRdex retrieves the applicant's associated interview record if it exists.
+7.  HRdex displays the full applicant record.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. Required parameters are missing.
+
+   * 1a1. HRdex shows the correct command usage.
+
+     Use case ends.
+
+* 2a. The student ID format is invalid.
+
+  * 2a1. HRdex shows an error message indicating invalid student ID format.
+
+    Use case ends.
+
+* 3a. No applicant matches the student ID.
+
+   * 3a1. HRdex shows an error message indicating that the applicant does not exist.
+
+      Use case ends.
+
+* 3b. More than one applicant matches the given name.
+  
+   * 3b1. HRdex informs the user that multiple applicants match the given name.
+ 
+   * 3b2. HRdex asks the user to specify the Student ID or phone number.
+
+     Use case ends.
+
+* 6a. No interview record exists for the applicant.
+
+    * 6a1. HRdex displays the applicant’s personal details
+    
+    * 6a2. HRdex indicates that no interview record is available.
+ 
+      Use case ends.
+
+**UC4. View a consolidated applicant list**
+
+**System:** HRdex
+
+**Use Case:** UC4 - View consolidated applicant list
+
+**Actor:** CCA Leader
+
+**Precondition:** 
+- The application is running and the user is at the main screen.
+
+**Guarantees:**
+
+- **Success guarantee:** HRdex displays a consolidated list of all applicants and their interview statuses.
+
+- **Failure guarantee:** No list is displayed.
+
+**MSS**
+
+1.  CCA Leader enters the command to view the applicant list.
+2.  HRdex retrieves all applicant records and their interview statuses
+3.  HRdex displays the consolidated applicant list.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. The command format is invalid.
+
+   * 1a1. HRdex shows the correct command usage.
+
+     Use case ends.
+
+* 2a. No applicant records exist in the database.
+
+  * 2a1. HRdex displays an empty applicant list message.
+
+    Use case ends.
+
+**UC5. Add an interview record to an existing applicant**
+
+**System:** HRdex
+
+**Use Case:** UC5 - Add interview record to existing applicant
+
+**Actor:** Interviewer
+
+**Precondition:** 
+- The application is running and the user is at the main screen.
+
+**Guarantees:**
+
+- **Success guarantee:** A new interview record is assigned to the correct applicant.
+
+- **Failure guarantee:** No interview record is added.
+
+**MSS**
+
+1.  Interviewer enters the command to add an interview record using the applicant’s student ID or phone number, score, result, and comment.
+2.  HRdex validates the identifier format.
+3.  HRdex searches for the applicant using the provided identifier.
+4.  HRdex validates the interview score.
+5.  HRdex validates the interview result.
+6.  HRdex validates the interview comment length.
+7.  HRdex checks whether the applicant already has an interview record.
+8.  HRdex adds the interview record to the identified applicant.
+9.  HRdex displays a success message with the interview details.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. Required parameters are missing.
+
+   * 1a1. HRdex shows the correct command usage.
+
+     Use case ends.
+
+* 2a. The student ID format is invalid.
+
+  * 2a1. HRdex shows an error message indicating invalid student ID format.
+
+    Use case ends.
+
+* 2b. The phone number format is invalid.
+
+  * 2b1. HRdex shows an error message indicating invalid phone number format.
+
+    Use case ends.
+
+* 3a. No applicant with the given identifier exists.
+
+    * 3a1. HRdex shows an error message indicating that the applicant does not exist.
+
+      Use case ends.
+
+* 4a. The interview score is outside the accepted range.
+
+    * 4a1. HRdex shows an error message indicating invalid interview score.
+
+      Use case ends.
+      
+* 5a. The interview result is invalid.
+  
+    * 5a1. HRdex shows an error message indicating invalid interview result.
+
+      Use case ends.
+
+* 6a. The interview comment exceeds the maximum allowed length.
+
+    * 6a1. HRdex shows an error message indicating that the maximum allowed length has been exceeded.
+ 
+      Use case ends.
+
+* 7a. The applicant already has an interview record.
+
+    * 7a1. HRdex shows an error message indicating that only one interview record is allowed.
+ 
+      Use case ends.
+
+**UC6. Delete an interview record**
+
+**System:** HRdex
+
+**Use Case:** UC6 - Delete interview record
+
+**Actor:** Interviewer
+
+**Precondition:** 
+- The application is running and the user is at the main screen.
+
+**Guarantees:**
+
+- **Success guarantee:** The interview record is removed, while the applicant record remains in the database.
+
+- **Failure guarantee:** No interview record is deleted.
+
+**MSS**
+
+1.  Interviewer enters the command to delete an interview record for a specific applicant.
+2.  HRdex identifies the applicant using the provided student ID or phone number.
+3.  HRdex checks that an interview record exists for that applicant.
+4.  HRdex deletes the interview record.
+5.  HRdex displays a success message.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. Required parameters are missing.
+
+   * 1a1. HRdex shows the correct command usage.
+
+     Use case ends.
+
+* 2a. The student ID format is invalid.
+
+  * 2a1. HRdex shows an error message indicating invalid student ID format.
+
+    Use case ends.
+
+* 2b. The phone number format is invalid.
+
+  * 2b1. HRdex shows an error message indicating invalid phone number format.
+
+    Use case ends.
+
+* 2c. No matching applicant is found.
+
+  * 2c1. HRdex shows an error message indicating that no matching applicant was found.
+
+    Use case ends.
+    
+* 3a. The applicant exists but has no interview record.
+
+    * 3a1. HRdex shows an error message indicating that no interview record exists.
+
+      Use case ends.
+
+**UC7. Search for an applicant**
+
+**System:** HRdex
+
+**Use Case:** UC7 - Search for an applicant
+
+**Actor:** Interviewer
+
+**Precondition:** 
+- The application is running and the user is at the main screen.
+
+**Guarantees:**
+
+- **Success guarantee:** HRdex displays the applicant record or list of matching applicant records.
+
+- **Failure guarantee:** No matching record is displayed.
+
+**MSS**
+
+1.  Interviewer enters the command to search for an applicant using name or phone number.
+2.  HRdex validates the provided search input.
+3.  HRdex searches for matching applicant records.
+4.  HRdex displays the matching applicant record or records.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. Required parameters are missing.
+
+   * 1a1. HRdex shows the correct command usage.
+
+     Use case ends.
+
+* 2a. The phone number format is invalid.
+
+  * 2a1. HRdex shows an error message indicating invalid phone number format.
+
+    Use case ends.
+    
+* 3a. No applicant matches the search input.
+
+    * 3a1. HRdex shows an error message indicating that no matching applicant was found.
+
+      Use case ends.
+
+**UC8. Filter applicants by interview status**
+
+**System:** HRdex
+
+**Use Case:** UC8 - Filter applicants by interview status
+
+**Actor:** Interviewer
+
+**Precondition:** 
+- The application is running and the user is at the main screen.
+
+**Guarantees:**
+
+- **Success guarantee:** HRdex displays only applicants with the specified interview status.
+
+- **Failure guarantee:** No filtered list is displayed.
+
+**MSS**
+
+1.  Interviewer enters the command to filter applicants by interview status.
+2.  HRdex validates the provided interview status.
+3.  HRdex retrieves applicant records matching the specified status.
+4.  HRdex displays the filtered applicant list.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. Required parameters are missing.
+
+   * 1a1. HRdex shows the correct command usage.
+
+     Use case ends.
+
+* 2a. The provided interview status is invalid.
+
+  * 2a1. HRdex shows an error message indicating invalid interview status.
+
+    Use case ends.
+    
+* 3a. No applicants match the specified status.
+
+    * 3a1. HRdex displays an empty filtered list message.
+
+      Use case ends.
+
+     
 ### Non-Functional Requirements
 
-1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 applicants without a noticeable sluggishness in performance for typical usage.
+1.  Should work on any devices with Windows, macOS or Linux installed as long as it has Java `17` or above installed.
+2.  Should be able to hold up to 1000 applicant records without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4.  The app must function entirely **offline** — no internet connection should be required at any point.
-5.  The app assumes **no login or authentication** — the current person holding the device is assumed to be authorised to edit data.
-6.  All data must be stored **locally** on the user's hard drive in a portable format (JSON).
+4.  A new user with basic command-line familiarity should be able to learn and use the core features of the product within 30 minutes by referring to the User Guide.
+5.  Should respond to typical user commands within 2 seconds when operating on a dataset of up to 1000 applicant records.
+6.  Should store data locally on the user’s device so that it can be used without an internet connection.
+7.  Should preserve data between sessions by saving all applicant and interview records to persistent storage.
+8.  Should preserve data between devices by saving persistent storage within the app and not locally.
+9.  Should have a predictable location for data within the app
+10.  Should reject invalid inputs with clear and specific error messages, so that users can correct their commands easily.
+11.  Should prevent ambiguous or inconsistent data states, such as duplicate applicants with the same student ID or phone number, or multiple interview records for one applicant.
+12.  Should be able to recover from invalid commands without crashing or corrupting stored data.
+13.  Should remain usable on screens with a resolution of 1280×720 or higher.
+14.  Should be maintainable enough for future student developers to add new commands or extend the interview record model with reasonable effort.
+15.  Command formats should remain consistent across similar operations so that users can learn the system quickly.
 
 ### Glossary
 
