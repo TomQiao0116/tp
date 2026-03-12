@@ -52,4 +52,5 @@ public class InterviewRecord {
     public String toString() {
         return id + " | " + date + " | " + notes;
     }
+
 }
