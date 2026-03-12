@@ -262,71 +262,529 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
-* prefer desktop apps over other types
-* can type fast
-* prefers typing to mouse interactions
-* is reasonably comfortable using CLI apps
+* An NUS CCA Leader or Interviewer involved in managing a recruitment drive
+* Has a need to record and track a significant number of applicants and interview outcomes
+* Prefers desktop CLI apps over mouse-driven interfaces
+* Can type fast and is comfortable with CLI applications
+* Works with teammates through a **single shared instance of the app**, which acts as the single source of truth for all recruitment data — no individual accounts needed
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**: Centralise applicant contact details and interview evaluations in a single offline platform, eliminating the need to juggle Google Sheets, Telegram messages, and Word documents — enabling faster and more accurate recruitment tracking than a typical GUI-driven app.
 
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                     | So that I can…​                                                        |
-| -------- | ------------------------------------------ | ------------------------------ | ---------------------------------------------------------------------- |
-| `* * *`  | new user                                   | see usage instructions         | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person               |                                                                        |
-| `* * *`  | user                                       | delete a person                | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name          | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details   | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name           | locate a person easily                                                 |
-
-*{More to be added}*
+| Priority | As a …​       | I want to …​                                               | So that I can…​                                                          |
+| -------- | ------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `* * *`  | CCA Leader    | add a new applicant with their Student ID and Phone Number | have a unique record for every person who signed up                      |
+| `* * *`  | CCA Leader    | view a consolidated list of all applicants and their interview statuses | track the overall progress of the recruitment drive     |
+| `* * *`  | CCA Leader    | delete an incorrect applicant entry                        | ensure the data remains accurate if a mistake was made during entry      |
+| `* *`    | CCA Leader    | search for an applicant by name or Student ID              | locate a specific applicant's record quickly                             |
+| `* * *`  | Interviewer   | add interview scores and comments to an existing applicant | keep all feedback tied to the applicant's profile in one place           |
+| `* *`    | Interviewer   | filter the list to show only applicants with "Pending" interviews | know exactly who I need to interview next                           |
+| `* *`    | Interviewer   | search for an applicant by name or phone number            | quickly pull up their record during a live interview session             |
+| `*`      | Interviewer   | undo a command                                             | quickly revert an accidental edit without re-typing                      |
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `HRdex` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Delete a person**
+**UC1. Add an applicant record**
+
+**System:** HRdex
+
+**Use Case:** UC1 - Add applicant record
+
+**Actor:** CCA Leader
+
+**Precondition:** 
+- The application is running and user is at the main screen.
+
+**Guarantees:**
+
+- **Success guarantee:** A new applicant record with valid name, student ID and phone number is stored in the database.
+
+- **Failure guarantee:** No new applicant record is added.
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  CCA Leader enters the command to add an applicant record with a name, student ID and phone number.
+2.  HRdex validates the applicant name format.
+3.  HRdex validates the applicant student ID format.
+4.  HRdex validates the applicant phone number format.
+5.  HRdex checks whether the applicant student ID or phone number already exists in the database.
+6.  HRdex creates the new applicant record.
+7.  HRdex displays a success message with the applicant details.
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
+* 1a. Required parameters are missing.
 
-  Use case ends.
+   * 1a1. HRdex shows the correct command usage.
 
-* 3a. The given index is invalid.
+     Use case ends.
+     
+* 1b. A parameter is specified more than once.
 
-    * 3a1. AddressBook shows an error message.
+  * 1b1. HRdex shows an error message indicating that duplicate parameters are not allowed.
+ 
+    Use case ends.
 
-      Use case resumes at step 2.
+* 2a. The name format is invalid.
 
-*{More to be added}*
+  * 2a1. HRdex shows an error message indicating invalid name format.
 
+    Use case ends.
+
+* 3a. The student ID format is invalid.
+
+  * 3a1. HRdex shows an error message indicating invalid student ID format.
+
+    Use case ends.
+
+* 4a. The phone number format is invalid.
+
+    * 4a1. HRdex shows an error message indicating invalid phone number format.
+
+      Use case ends.
+
+* 5a. The student ID already exists in the database.
+
+    * 5a1. HRdex shows an error message that the applicant already exists.
+
+      Use case ends.
+
+* 5b. The phone number already exists in the database.
+
+    * 5b1. HRdex shows an error message that the applicant already exists.
+
+      Use case ends.
+
+**UC2. Delete an applicant record**
+
+**System:** HRdex
+
+**Use Case:** UC2 - Delete applicant record
+
+**Actor:** CCA Leader
+
+**Precondition:** 
+- The application is running and the user is at the main screen.
+
+**Guarantees:**
+
+- **Success guarantee:** The applicant record is removed from the database. Any associated interview record is also removed.
+
+- **Failure guarantee:** No records are deleted.
+
+**MSS**
+
+1.  CCA Leader enters the command to delete an applicant using the applicant's student ID or phone number.
+2.  HRdex validates the identifier format.
+3.  HRdex searches for the matching applicant record.
+4.  HRdex deletes the applicant record.
+5.  HRdex deletes the applicant's associated interview record if it exists.
+6.  HRdex displays a success message.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. Required parameters are missing.
+
+   * 1a1. HRdex shows the correct command usage.
+
+     Use case ends.
+
+* 2a. The student ID format is invalid.
+
+  * 2a1. HRdex shows an error message indicating invalid student ID format.
+
+    Use case ends.
+
+* 2b. The phone number format is invalid.
+
+    * 2b1. HRdex shows an error message indicating invalid phone number format.
+
+      Use case ends.
+
+* 3a. No applicant matches the student ID or phone number.
+
+    * 3a1. HRdex shows an error message indicating that the applicant does not exist.
+
+      Use case ends.
+
+**UC3. View a full applicant record**
+
+**System:** HRdex
+
+**Use Case:** UC3 - View a full applicant record
+
+**Actor:** CCA Leader
+
+**Precondition:** 
+- The application is running and the user is at the main screen.
+
+**Guarantees:**
+
+- **Success guarantee:** The system displays the applicant's full record, including interview details if available.
+
+- **Failure guarantee:** No record is displayed.
+
+**MSS**
+
+1.  CCA Leader enters the command to view an applicant record using applicant's name or student ID.
+2.  HRdex validates the identifier format.
+3.  HRdex searches for the matching applicant record.
+4.  HRdex finds exactly one matching applicant.
+5.  HRdex retrieves the applicant’s personal details.
+6.  HRdex retrieves the applicant's associated interview record if it exists.
+7.  HRdex displays the full applicant record.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. Required parameters are missing.
+
+   * 1a1. HRdex shows the correct command usage.
+
+     Use case ends.
+
+* 2a. The student ID format is invalid.
+
+  * 2a1. HRdex shows an error message indicating invalid student ID format.
+
+    Use case ends.
+
+* 3a. No applicant matches the student ID.
+
+   * 3a1. HRdex shows an error message indicating that the applicant does not exist.
+
+      Use case ends.
+
+* 3b. More than one applicant matches the given name.
+  
+   * 3b1. HRdex informs the user that multiple applicants match the given name.
+ 
+   * 3b2. HRdex asks the user to specify the Student ID or phone number.
+
+     Use case ends.
+
+* 6a. No interview record exists for the applicant.
+
+    * 6a1. HRdex displays the applicant’s personal details
+    
+    * 6a2. HRdex indicates that no interview record is available.
+ 
+      Use case ends.
+
+**UC4. View a consolidated applicant list**
+
+**System:** HRdex
+
+**Use Case:** UC4 - View consolidated applicant list
+
+**Actor:** CCA Leader
+
+**Precondition:** 
+- The application is running and the user is at the main screen.
+
+**Guarantees:**
+
+- **Success guarantee:** HRdex displays a consolidated list of all applicants and their interview statuses.
+
+- **Failure guarantee:** No list is displayed.
+
+**MSS**
+
+1.  CCA Leader enters the command to view the applicant list.
+2.  HRdex retrieves all applicant records and their interview statuses
+3.  HRdex displays the consolidated applicant list.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. The command format is invalid.
+
+   * 1a1. HRdex shows the correct command usage.
+
+     Use case ends.
+
+* 2a. No applicant records exist in the database.
+
+  * 2a1. HRdex displays an empty applicant list message.
+
+    Use case ends.
+
+**UC5. Add an interview record to an existing applicant**
+
+**System:** HRdex
+
+**Use Case:** UC5 - Add interview record to existing applicant
+
+**Actor:** Interviewer
+
+**Precondition:** 
+- The application is running and the user is at the main screen.
+
+**Guarantees:**
+
+- **Success guarantee:** A new interview record is assigned to the correct applicant.
+
+- **Failure guarantee:** No interview record is added.
+
+**MSS**
+
+1.  Interviewer enters the command to add an interview record using the applicant’s student ID or phone number, score, result, and comment.
+2.  HRdex validates the identifier format.
+3.  HRdex searches for the applicant using the provided identifier.
+4.  HRdex validates the interview score.
+5.  HRdex validates the interview result.
+6.  HRdex validates the interview comment length.
+7.  HRdex checks whether the applicant already has an interview record.
+8.  HRdex adds the interview record to the identified applicant.
+9.  HRdex displays a success message with the interview details.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. Required parameters are missing.
+
+   * 1a1. HRdex shows the correct command usage.
+
+     Use case ends.
+
+* 2a. The student ID format is invalid.
+
+  * 2a1. HRdex shows an error message indicating invalid student ID format.
+
+    Use case ends.
+
+* 2b. The phone number format is invalid.
+
+  * 2b1. HRdex shows an error message indicating invalid phone number format.
+
+    Use case ends.
+
+* 3a. No applicant with the given identifier exists.
+
+    * 3a1. HRdex shows an error message indicating that the applicant does not exist.
+
+      Use case ends.
+
+* 4a. The interview score is outside the accepted range.
+
+    * 4a1. HRdex shows an error message indicating invalid interview score.
+
+      Use case ends.
+      
+* 5a. The interview result is invalid.
+  
+    * 5a1. HRdex shows an error message indicating invalid interview result.
+
+      Use case ends.
+
+* 6a. The interview comment exceeds the maximum allowed length.
+
+    * 6a1. HRdex shows an error message indicating that the maximum allowed length has been exceeded.
+ 
+      Use case ends.
+
+* 7a. The applicant already has an interview record.
+
+    * 7a1. HRdex shows an error message indicating that only one interview record is allowed.
+ 
+      Use case ends.
+
+**UC6. Delete an interview record**
+
+**System:** HRdex
+
+**Use Case:** UC6 - Delete interview record
+
+**Actor:** Interviewer
+
+**Precondition:** 
+- The application is running and the user is at the main screen.
+
+**Guarantees:**
+
+- **Success guarantee:** The interview record is removed, while the applicant record remains in the database.
+
+- **Failure guarantee:** No interview record is deleted.
+
+**MSS**
+
+1.  Interviewer enters the command to delete an interview record for a specific applicant.
+2.  HRdex identifies the applicant using the provided student ID or phone number.
+3.  HRdex checks that an interview record exists for that applicant.
+4.  HRdex deletes the interview record.
+5.  HRdex displays a success message.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. Required parameters are missing.
+
+   * 1a1. HRdex shows the correct command usage.
+
+     Use case ends.
+
+* 2a. The student ID format is invalid.
+
+  * 2a1. HRdex shows an error message indicating invalid student ID format.
+
+    Use case ends.
+
+* 2b. The phone number format is invalid.
+
+  * 2b1. HRdex shows an error message indicating invalid phone number format.
+
+    Use case ends.
+
+* 2c. No matching applicant is found.
+
+  * 2c1. HRdex shows an error message indicating that no matching applicant was found.
+
+    Use case ends.
+    
+* 3a. The applicant exists but has no interview record.
+
+    * 3a1. HRdex shows an error message indicating that no interview record exists.
+
+      Use case ends.
+
+**UC7. Search for an applicant**
+
+**System:** HRdex
+
+**Use Case:** UC7 - Search for an applicant
+
+**Actor:** Interviewer
+
+**Precondition:** 
+- The application is running and the user is at the main screen.
+
+**Guarantees:**
+
+- **Success guarantee:** HRdex displays the applicant record or list of matching applicant records.
+
+- **Failure guarantee:** No matching record is displayed.
+
+**MSS**
+
+1.  Interviewer enters the command to search for an applicant using name or phone number.
+2.  HRdex validates the provided search input.
+3.  HRdex searches for matching applicant records.
+4.  HRdex displays the matching applicant record or records.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. Required parameters are missing.
+
+   * 1a1. HRdex shows the correct command usage.
+
+     Use case ends.
+
+* 2a. The phone number format is invalid.
+
+  * 2a1. HRdex shows an error message indicating invalid phone number format.
+
+    Use case ends.
+    
+* 3a. No applicant matches the search input.
+
+    * 3a1. HRdex shows an error message indicating that no matching applicant was found.
+
+      Use case ends.
+
+**UC8. Filter applicants by interview status**
+
+**System:** HRdex
+
+**Use Case:** UC8 - Filter applicants by interview status
+
+**Actor:** Interviewer
+
+**Precondition:** 
+- The application is running and the user is at the main screen.
+
+**Guarantees:**
+
+- **Success guarantee:** HRdex displays only applicants with the specified interview status.
+
+- **Failure guarantee:** No filtered list is displayed.
+
+**MSS**
+
+1.  Interviewer enters the command to filter applicants by interview status.
+2.  HRdex validates the provided interview status.
+3.  HRdex retrieves applicant records matching the specified status.
+4.  HRdex displays the filtered applicant list.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. Required parameters are missing.
+
+   * 1a1. HRdex shows the correct command usage.
+
+     Use case ends.
+
+* 2a. The provided interview status is invalid.
+
+  * 2a1. HRdex shows an error message indicating invalid interview status.
+
+    Use case ends.
+    
+* 3a. No applicants match the specified status.
+
+    * 3a1. HRdex displays an empty filtered list message.
+
+      Use case ends.
+
+     
 ### Non-Functional Requirements
 
-1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+1.  Should work on any devices with Windows, macOS or Linux installed as long as it has Java `17` or above installed.
+2.  Should be able to hold up to 1000 applicant records without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-
-*{More to be added}*
+4.  A new user with basic command-line familiarity should be able to learn and use the core features of the product within 30 minutes by referring to the User Guide.
+5.  Should respond to typical user commands within 2 seconds when operating on a dataset of up to 1000 applicant records.
+6.  Should store data locally on the user’s device so that it can be used without an internet connection.
+7.  Should preserve data between sessions by saving all applicant and interview records to persistent storage.
+8.  Should preserve data between devices by saving persistent storage within the app and not locally.
+9.  Should have a predictable location for data within the app
+10.  Should reject invalid inputs with clear and specific error messages, so that users can correct their commands easily.
+11.  Should prevent ambiguous or inconsistent data states, such as duplicate applicants with the same student ID or phone number, or multiple interview records for one applicant.
+12.  Should be able to recover from invalid commands without crashing or corrupting stored data.
+13.  Should remain usable on screens with a resolution of 1280×720 or higher.
+14.  Should be maintainable enough for future student developers to add new commands or extend the interview record model with reasonable effort.
+15.  Command formats should remain consistent across similar operations so that users can learn the system quickly.
 
 ### Glossary
 
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
+| Term | Definition |
+| :--- | :--- |
+| **Applicant** | A student who has applied for the CCA and exists as a record in the system, identified uniquely by their Phone Number or Student ID. |
+| **CCA Leader** | One of the two primary user roles. The CCA Leader oversees the entire recruitment process — they manage the applicant list, review overall interview outcomes, and make final admission decisions. They do not necessarily conduct interviews themselves. |
+| **Interviewer** | One of the two primary user roles. The Interviewer conducts face-to-face interview sessions with applicants and records scores and comments directly into the app. They focus on per-applicant data entry rather than overall recruitment management. |
+| **CLI** | Command Line Interface; the primary mode of interaction where users type text commands. |
+| **Interview Record** | A data entity attached to an Applicant containing a score (1–5), a result (Pass/Fail/Pending), and qualitative comments from the interview session. |
+| **Local App** | An application that stores all data on the computer's hard drive without requiring an internet connection. |
+| **Mainstream OS** | Windows, Linux, Unix, macOS. |
+| **Single Source of Truth** | The single shared app instance used by all CCA members (both Leaders and Interviewers) to ensure all recruitment data is consistent and centralised. |
+| **Unique Identifier** | A piece of data (Phone Number or Student ID) used to distinguish between applicants with the same name. |
 
 --------------------------------------------------------------------------------------------------------------------
 
