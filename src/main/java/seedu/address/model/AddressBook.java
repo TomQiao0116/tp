@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.interview.InterviewDatabase;
 
 /**
  * Wraps all data at the address-book level
@@ -16,6 +17,9 @@ import seedu.address.model.person.UniquePersonList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
+
+    // Database storing all interview records.
+    private final InterviewDatabase interviewDatabase = new InterviewDatabase();
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
