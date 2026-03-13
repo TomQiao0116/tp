@@ -19,8 +19,8 @@ public class AddInterviewRecordCommand extends Command {
     public static final String COMMAND_WORD = "addInterviewRecord";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Adds an interview record to the person identified by the index number "
-            + "used in the displayed person list.\n"
+            + ": Adds an interview record to the person identified "
+            + "by the index number used in the displayed person list.\n"
             + "Parameters: PERSON_INDEX "
             + "id/INTERVIEW_ID "
             + "d/DATE "
