@@ -40,7 +40,7 @@ public class Person {
      * Every field must be present and not null. New constructor that adds the interviewRecords field.
      */
     public Person(Name name, Phone phone, Email email, Address address,
-                  Set<Tag> tags, List<InterviewRecord> interviewRecords){
+                  Set<Tag> tags, List<InterviewRecord> interviewRecords) {
         requireAllNonNull(name, phone, email, address, tags, interviewRecords);
 
         this.name = name;
@@ -91,7 +91,7 @@ public class Person {
         requireAllNonNull(interviewRecord);
         List<InterviewRecord> updatedInterviewRecords = new ArrayList<>(interviewRecords);
         updatedInterviewRecords.add(interviewRecord);
-        return new Person(name,phone,email,address,tags,updatedInterviewRecords);
+        return new Person(name, phone, email, address, tags, updatedInterviewRecords);
     }
 
     /**
