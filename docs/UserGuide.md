@@ -31,6 +31,8 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
    * `add n/John Doe sid/A1234567B p/98765432 : Adds an applicant named `John Doe` to HRdex.
 
    * `delete sid/A1234567B` : Deletes the applicant with student ID `A1234567B`.
+  
+   * `view sid/A1234567B` : Displays the full applicant record for the applicant with student ID `A1234567B`.
 
    * `clear` : Deletes all applicant records.
 
@@ -86,6 +88,24 @@ Examples:
 Shows a list of all persons in the address book.
 
 Format: `list`
+
+### Viewing a full applicant record : `view`
+
+Displays the full applicant record, including interview details if available.
+
+Format:
+* `view sid/STUDENT_ID`
+* `view n/NAME`
+
+* If `sid/STUDENT_ID` is used, HRdex displays the matching applicant record.
+* If `n/NAME` is used, HRdex searches for applicants with the given name.
+* If exactly one applicant matches the given name, HRdex displays the full applicant record.
+* If more than one applicant matches the given name, HRdex will inform the user and ask them to use the student ID instead.
+* If no interview record exists, HRdex will display the applicant’s personal details and indicate that no interview record is available.
+
+Examples:
+* `view sid/A1234567B`
+* `view n/John Doe`
 
 ### Editing a person : `edit`
 
@@ -190,6 +210,7 @@ Action | Format, Examples
 **Add** | `add n/NAME sid/STUDENT_ID p/PHONE_NUMBER​` <br> e.g., `add n/James Ho sid/A1234567B p/22224444`
 **Clear** | `clear`
 **Delete** | `delete sid/STUDENT_ID` or `delete p/PHONE_NUMBER`<br> e.g., `delete sid/A1234567B` or `delete p/98765432`
+**View** | `view sid/STUDENT_ID` or `view n/NAME`<br> e.g., `view sid/A1234567B` or `view n/John Doe`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
