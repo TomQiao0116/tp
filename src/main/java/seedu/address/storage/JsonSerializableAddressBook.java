@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.interview.Interview;
+import seedu.address.model.interview.InterviewRecord;
 import seedu.address.model.person.Person;
 
 /**
@@ -30,19 +30,16 @@ class JsonSerializableAddressBook {
      * Interview records are stored here so they can be serialized into
      * the JSON save file together with the rest of the address book data.
      */
-    private final List<Interview> interviews = new ArrayList<>();
+    private final List<JsonAdaptedInterviewRecord> interviews = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonSerializableAddressBook} with the given persons.
      */
     @JsonCreator
     public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons,
-                                       @JsonProperty("interviews") List<Interview> interviews) {
+                                       @JsonProperty("interviews") List<JsonAdaptedInterviewRecord> interviews) {
         this.persons.addAll(persons);
-
-        if (interviews != null) {
-            this.interviews.addAll(interviews);
-        }
+        this.interviews.addAll(interviews);
     }
 
     /**
@@ -54,7 +51,8 @@ class JsonSerializableAddressBook {
         persons.addAll(source.getPersonList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
 
         // Store interview records for JSON serialization
-        interviews.addAll(source.getInterviewDatabase().getInterviewList());
+        interviews.addAll(source.getInterviewDatabase().getInterviewRecordList()
+                .stream().map(JsonAdaptedInterviewRecord::new).collect(Collectors.toList()));
     }
 
     /**
@@ -74,8 +72,9 @@ class JsonSerializableAddressBook {
         }
 
         // Restore interview records into the AddressBook model
-        for (Interview interview : interviews) {
-            addressBook.getInterviewDatabase().addInterview(interview);
+        for (JsonAdaptedInterviewRecord adapted : interviews) {
+            InterviewRecord record = adapted.toModelType();
+            addressBook.getInterviewDatabase().addInterviewRecord(record);
         }
 
         return addressBook;

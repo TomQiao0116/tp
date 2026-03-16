@@ -97,7 +97,7 @@ public class PersonTest {
                 + ", email=" + ALICE.getEmail()
                 + ", address=" + ALICE.getAddress()
                 + ", tags=" + ALICE.getTags()
-                + ", interviewRecords=" + ALICE.getInterviewRecords()
+                + ", interviewRecordIds=" + ALICE.getInterviewIds()
                 + "}";
         assertEquals(expected, ALICE.toString());
     }

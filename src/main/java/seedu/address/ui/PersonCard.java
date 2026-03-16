@@ -8,7 +8,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import seedu.address.model.interview.InterviewDatabase;
+import seedu.address.model.interview.InterviewRecord;
 import seedu.address.model.person.Person;
+
 
 /**
  * An UI component that displays information of a {@code Person}.
@@ -26,6 +29,7 @@ public class PersonCard extends UiPart<Region> {
      */
 
     public final Person person;
+    private final InterviewDatabase interviewDatabase;
 
     @FXML
     private HBox cardPane;
@@ -47,17 +51,21 @@ public class PersonCard extends UiPart<Region> {
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
      */
-    public PersonCard(Person person, int displayedIndex) {
+    public PersonCard(Person person, int displayedIndex, InterviewDatabase interviewDatabase) {
         super(FXML);
         this.person = person;
+        this.interviewDatabase = interviewDatabase;
+
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
 
-        String recordsText = person.getInterviewRecords().stream()
-                .map(record -> record.toString())
+        String recordsText = person.getInterviewIds().stream()
+                .map(interviewDatabase::getInterviewRecord)
+                .filter(record -> record != null)
+                .map(InterviewRecord::toString)
                 .collect(Collectors.joining("\n"));
 
         if (recordsText.isEmpty()) {
@@ -69,5 +77,20 @@ public class PersonCard extends UiPart<Region> {
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+
+        updateInterviewRecords();
+    }
+
+    private void updateInterviewRecords() {
+        // Instead of person.getInterviewRecords(), use the IDs to fetch from the DB
+        String recordsText = person.getInterviewIds().stream() // list of String IDs
+                .map(id -> {
+                    InterviewRecord record = interviewDatabase.getInterviewRecord(id); // fetch the full record
+                    return record == null ? "" : record.toString();
+                })
+                .filter(text -> !text.isEmpty()) // remove any null/empty records
+                .collect(Collectors.joining("\n"));
+
+        interviewRecords.setText(recordsText.isEmpty() ? "" : "Interview Records:\n" + recordsText);
     }
 }

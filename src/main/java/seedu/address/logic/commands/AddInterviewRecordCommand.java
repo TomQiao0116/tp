@@ -1,82 +1,47 @@
 package seedu.address.logic.commands;
 
-import static java.util.Objects.requireNonNull;
-
-import java.util.List;
-
-import seedu.address.commons.core.index.Index;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.interview.InterviewRecord;
-import seedu.address.model.person.Person;
 
 /**
- * Adds an interview record to an existing person in the address book.
+ * Adds a new {@link InterviewRecord} to the interview database.
+ * <p>
+ * Usage example:
+ * <pre>
+ * {@code
+ * addInterviewRecord id/INT-456 date/2026-04-10 notes/2nd technical round
+ * }
+ * </pre>
+ * This command checks for duplicate interview IDs before adding the record.
  */
 public class AddInterviewRecordCommand extends Command {
 
     public static final String COMMAND_WORD = "addInterviewRecord";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Adds an interview record to the person identified "
-            + "by the index number used in the displayed person list.\n"
-            + "Parameters: PERSON_INDEX "
-            + "id/INTERVIEW_ID "
-            + "d/DATE "
-            + "nt/NOTES\n"
-            + "Example: " + COMMAND_WORD + " 1 "
-            + "id/IR001 "
-            + "d/2026-03-13 "
-            + "nt/Strong communication skills";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a new interview record.\n"
+            + "Format: " + COMMAND_WORD + " id/ID date/DATE notes/NOTES\n"
+            + "Example: " + COMMAND_WORD + " id/INT-456 date/2026-04-10 notes/2nd technical round";
 
-    public static final String MESSAGE_SUCCESS = "New interview record added to: %1$s";
+    public static final String MESSAGE_SUCCESS = "New interview added: %s";
+    public static final String MESSAGE_DUPLICATE = "Interview with this ID already exists: %s";
 
-    private final Index personIndex;
     private final InterviewRecord toAdd;
 
-    /**
-     * Creates an AddInterviewRecordCommand to add the specified {@code InterviewRecord}
-     * to the specified {@code Person}.
-     */
-    public AddInterviewRecordCommand(Index personIndex, InterviewRecord toAdd) {
-        requireNonNull(personIndex);
-        requireNonNull(toAdd);
-        this.personIndex = personIndex;
-        this.toAdd = toAdd;
+    public AddInterviewRecordCommand(InterviewRecord record) {
+        this.toAdd = record;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        requireNonNull(model);
+        var db = model.getInterviewDatabase();
 
-        List<Person> lastShownList = model.getFilteredPersonList();
-
-        if (personIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        if (db.contains(toAdd.getId())) {
+            throw new CommandException(String.format(MESSAGE_DUPLICATE, toAdd.getId()));
         }
 
-        Person personToEdit = lastShownList.get(personIndex.getZeroBased());
-        Person editedPerson = personToEdit.addInterviewRecord(toAdd);
+        db.addInterviewRecord(toAdd);
 
-        model.setPerson(personToEdit, editedPerson);
-
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(editedPerson)));
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        if (!(other instanceof AddInterviewRecordCommand)) {
-            return false;
-        }
-
-        AddInterviewRecordCommand otherCommand = (AddInterviewRecordCommand) other;
-        return personIndex.equals(otherCommand.personIndex)
-                && toAdd.equals(otherCommand.toAdd);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
 }
-
