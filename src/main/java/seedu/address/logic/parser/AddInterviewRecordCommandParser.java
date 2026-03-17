@@ -1,57 +1,70 @@
 package seedu.address.logic.parser;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_INTERVIEW_DATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_INTERVIEW_ID;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_INTERVIEW_NOTE;
 
-import java.util.stream.Stream;
-
-import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddInterviewRecordCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.interview.InterviewRecord;
 
 /**
- * Parses input arguments and creates a new AddInterviewRecordCommand object.
+ * Parses input arguments and creates a new {@link AddInterviewRecordCommand} object.
+ * <p>
+ * Expects input in the following format:
+ * <pre>
+ * {@code
+ * addInterviewRecord id/ID d/DATE nt/NOTES
+ * }
+ * </pre>
+ * For example:
+ * <pre>
+ * {@code
+ * addInterviewRecord id/INT-456 d/2026-04-10 nt/2nd technical round
+ * }
+ * </pre>
+ * Throws a {@link ParseException} if the input does not conform to the expected format
+ * or if required prefixes are missing.
  */
 public class AddInterviewRecordCommandParser implements Parser<AddInterviewRecordCommand> {
 
-    /**
-     * Parses the given {@code String} of arguments in the context of the AddInterviewRecordCommand
-     * and returns an AddInterviewRecordCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public AddInterviewRecordCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_INTERVIEW_ID, PREFIX_INTERVIEW_DATE, PREFIX_INTERVIEW_NOTE);
+    private static final Prefix PREFIX_ID = new Prefix("id/");
+    private static final Prefix PREFIX_DATE = new Prefix("d/");
+    private static final Prefix PREFIX_NOTES = new Prefix("nt/");
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_INTERVIEW_ID, PREFIX_INTERVIEW_DATE, PREFIX_INTERVIEW_NOTE)
-                || argMultimap.getPreamble().isEmpty()) {
+    @Override
+    public AddInterviewRecordCommand parse(String args) throws ParseException {
+        requireNonNull(args);
+
+        // Tokenize the input with all expected prefixes
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_ID, PREFIX_DATE, PREFIX_NOTES);
+
+        // Ensure there’s no preamble (unexpected text before prefixes)
+        if (!argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     AddInterviewRecordCommand.MESSAGE_USAGE));
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(
-                PREFIX_INTERVIEW_ID, PREFIX_INTERVIEW_DATE, PREFIX_INTERVIEW_NOTE);
+        // Verify that each prefix occurs at most once (optional, like your EditCommand example)
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_ID, PREFIX_DATE, PREFIX_NOTES);
 
-        Index personIndex = ParserUtil.parseIndex(argMultimap.getPreamble());
+        // Parse each value; throw error if a required prefix is missing
+        String id = argMultimap.getValue(PREFIX_ID)
+                .orElseThrow(() -> new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                        AddInterviewRecordCommand.MESSAGE_USAGE)))
+                .trim();
 
-        String id = argMultimap.getValue(PREFIX_INTERVIEW_ID).get();
-        String date = argMultimap.getValue(PREFIX_INTERVIEW_DATE).get();
-        String notes = argMultimap.getValue(PREFIX_INTERVIEW_NOTE).get();
+        String date = argMultimap.getValue(PREFIX_DATE)
+                .orElseThrow(() -> new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                        AddInterviewRecordCommand.MESSAGE_USAGE)))
+                .trim();
 
-        InterviewRecord interviewRecord = new InterviewRecord(id, date, notes);
+        // Notes could be optional if you want, otherwise enforce presence
+        String notes = argMultimap.getValue(PREFIX_NOTES)
+                .orElseThrow(() -> new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                        AddInterviewRecordCommand.MESSAGE_USAGE)))
+                .trim();
 
-        return new AddInterviewRecordCommand(personIndex, interviewRecord);
-    }
-
-    /**
-     * Returns true if all prefixes contain non-empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+        InterviewRecord record = new InterviewRecord(id, date, notes);
+        return new AddInterviewRecordCommand(record);
     }
 }
-

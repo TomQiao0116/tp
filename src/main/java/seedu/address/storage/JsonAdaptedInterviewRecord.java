@@ -11,6 +11,8 @@ import seedu.address.model.interview.InterviewRecord;
  */
 class JsonAdaptedInterviewRecord {
 
+    public static final String MISSING_FIELD_MESSAGE_FORMAT = "InterviewRecord's %s field is missing!";
+
     private final String id;
     private final String date;
     private final String notes;
@@ -30,7 +32,22 @@ class JsonAdaptedInterviewRecord {
         notes = source.getNotes();
     }
 
+    /**
+     * Converts this Jackson-friendly adapted object into the model's {@code InterviewRecord} object.
+     *
+     * @throws IllegalValueException if there were any data constraints violated.
+     */
     public InterviewRecord toModelType() throws IllegalValueException {
+        if (id == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "id"));
+        }
+        if (date == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "date"));
+        }
+        if (notes == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "notes"));
+        }
+
         return new InterviewRecord(id, date, notes);
     }
 }
