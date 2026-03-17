@@ -18,6 +18,11 @@ public class RemoveInterviewRecordCommandParser implements Parser<RemoveIntervie
      */
     public RemoveInterviewRecordCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
+        if (trimmedArgs.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    RemoveInterviewRecordCommand.MESSAGE_USAGE));
+        }
+
         String[] parts = trimmedArgs.split("\\s+");
 
         if (parts.length != 2) {
@@ -25,10 +30,17 @@ public class RemoveInterviewRecordCommandParser implements Parser<RemoveIntervie
                     RemoveInterviewRecordCommand.MESSAGE_USAGE));
         }
 
-        Index personIndex = ParserUtil.parseIndex(parts[0]);
-        Index recordIndex = ParserUtil.parseIndex(parts[1]);
+        // Person index (must be valid positive integer)
+        Index personIndex = ParserUtil.parseIndex(parts[0].trim());
 
-        return new RemoveInterviewRecordCommand(personIndex, recordIndex);
+        // Interview ID (any non-empty string)
+        String interviewId = parts[1].trim();
+        if (interviewId.isEmpty()) {
+            throw new ParseException("Interview ID cannot be empty.\n"
+                    + String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemoveInterviewRecordCommand.MESSAGE_USAGE));
+        }
+
+        return new RemoveInterviewRecordCommand(personIndex, interviewId);
     }
 }
 

@@ -24,20 +24,20 @@ public class RemoveInterviewRecordCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1 1";
 
     public static final String MESSAGE_SUCCESS = "Interview record removed from: %1$s";
-    public static final String MESSAGE_INVALID_RECORD_INDEX = "The interview record index provided is invalid.";
+    public static final String MESSAGE_INVALID_RECORD_ID = "The interview record index provided is invalid.";
 
     private final Index personIndex;
-    private final Index recordIndex;
+    private final String interviewId;
 
     /**
      * Creates a DeleteInterviewRecordCommand to delete the specified interview record
      * from the specified person.
      */
-    public RemoveInterviewRecordCommand(Index personIndex, Index recordIndex) {
+    public RemoveInterviewRecordCommand(Index personIndex, String interviewId) {
         requireNonNull(personIndex);
-        requireNonNull(recordIndex);
+        requireNonNull(interviewId);
         this.personIndex = personIndex;
-        this.recordIndex = recordIndex;
+        this.interviewId = interviewId;
     }
 
     @Override
@@ -54,15 +54,12 @@ public class RemoveInterviewRecordCommand extends Command {
 
         List<String> interviewIds = personToEdit.getInterviewIds();
 
-        if (recordIndex.getZeroBased() >= interviewIds.size()) {
-            throw new CommandException(MESSAGE_INVALID_RECORD_INDEX);
+        if (!interviewIds.contains(interviewId)) {
+            throw new CommandException(String.format(MESSAGE_INVALID_RECORD_ID, interviewId));
         }
 
-        // Gets interview ID
-        String interviewId = interviewIds.get(recordIndex.getZeroBased());
-
         // Removes ID from person
-        Person editedPerson = personToEdit.removeInterviewId(recordIndex.getZeroBased());
+        Person editedPerson = personToEdit.removeInterviewId(interviewId);
         model.setPerson(personToEdit, editedPerson);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(editedPerson)));
@@ -80,7 +77,7 @@ public class RemoveInterviewRecordCommand extends Command {
 
         RemoveInterviewRecordCommand otherCommand = (RemoveInterviewRecordCommand) other;
         return personIndex.equals(otherCommand.personIndex)
-                && recordIndex.equals(otherCommand.recordIndex);
+                && interviewId.equals(otherCommand.interviewId);
     }
 }
 
