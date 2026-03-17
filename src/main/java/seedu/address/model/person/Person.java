@@ -1,9 +1,9 @@
 package seedu.address.model.person;
 
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -20,6 +20,7 @@ public class Person {
     private final Name name;
     private final Phone phone;
     private final Email email;
+    private final List<String> interviewIds;
 
     // Data fields
     private final Address address;
@@ -29,12 +30,22 @@ public class Person {
      * Every field must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+        this(name, phone, email, address, tags, List.of());
+    }
+
+    /**
+     * Every field must be present and not null. New constructor that adds the interviewIds field.
+     */
+    public Person(Name name, Phone phone, Email email, Address address,
+                  Set<Tag> tags, List<String> interviewIds) {
+
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+
         this.tags.addAll(tags);
+        this.interviewIds = interviewIds;
     }
 
     public Name getName() {
@@ -59,6 +70,41 @@ public class Person {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    /**
+     * Returns an immutable interviewId list, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public List<String> getInterviewIds() {
+        return Collections.unmodifiableList(interviewIds);
+    }
+
+    /**
+     * Returns a new Person with the given interview record added.
+     */
+    public Person addInterviewRecord(String interviewId) {
+        List<String> updatedIds = new ArrayList<>(interviewIds);
+        updatedIds.add(interviewId);
+        return new Person(name, phone, email, address, tags, updatedIds);
+    }
+
+    /**
+     * Returns a new Person with the given interview record index removed.
+     */
+    public Person removeInterviewId(String index) {
+        List<String> updatedIds = new ArrayList<>(interviewIds);
+        updatedIds.remove(index);
+        return new Person(name, phone, email, address, tags, updatedIds);
+    }
+
+    /**
+     * Returns a new Person with the given interview record index removed. (Overload)
+     */
+    public Person removeInterviewId(int index) {
+        List<String> updatedIds = new ArrayList<>(interviewIds);
+        updatedIds.remove(index);
+        return new Person(name, phone, email, address, tags, updatedIds);
     }
 
     /**
@@ -94,13 +140,14 @@ public class Person {
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
                 && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags);
+                && tags.equals(otherPerson.tags)
+                && interviewIds.equals(otherPerson.interviewIds);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address, tags, interviewIds);
     }
 
     @Override
@@ -111,6 +158,7 @@ public class Person {
                 .add("email", email)
                 .add("address", address)
                 .add("tags", tags)
+                .add("interviewRecordIds", interviewIds)
                 .toString();
     }
 
