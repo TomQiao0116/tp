@@ -4,13 +4,20 @@ import static java.util.Objects.requireNonNull;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.interview.InterviewRecord;
 
 /**
- * Lists all interview records in the interview database.
+ * List out all {@link InterviewRecord} in the address book.
+ * <p>
+ * Usage example:
+ * <pre>
+ * {@code
+ * list-i
+ * }
  */
 public class ListInterviewsCommand extends Command {
 
-    public static final String COMMAND_WORD = "listInterviews";
+    public static final String COMMAND_WORD = "list-i";
 
     public static final String MESSAGE_SUCCESS = "Listed all interview records:";
 
