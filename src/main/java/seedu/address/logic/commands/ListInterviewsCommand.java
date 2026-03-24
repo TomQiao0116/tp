@@ -7,13 +7,9 @@ import seedu.address.model.Model;
 import seedu.address.model.interview.InterviewRecord;
 
 /**
- * List out all {@link InterviewRecord} in the address book.
- * <p>
+ * Lists all {@link InterviewRecord} entries in the address book.
  * Usage example:
- * <pre>
- * {@code
- * list-i
- * }
+ * {@code list-i}
  */
 public class ListInterviewsCommand extends Command {
 
