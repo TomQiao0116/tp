@@ -4,14 +4,23 @@ import static java.util.Objects.requireNonNull;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.interview.InterviewRecord;
 import seedu.address.model.person.Person;
 
 /**
- * Deletes an interview record and automatically unlinks it from all persons.
+ * Deletes an existing {@link InterviewRecord} in the interview database.
+ * <p>
+ * Usage example:
+ * <pre>
+ * {@code
+ * delete-i id/I-001
+ * }
+ * </pre>
+ * This command deletes an interview record that must be existing on the first hand.
  */
 public class DeleteInterviewRecordCommand extends Command {
 
-    public static final String COMMAND_WORD = "deleteInterviewRecord";
+    public static final String COMMAND_WORD = "delete-i";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes an interview record and removes it from all linked persons.\n"

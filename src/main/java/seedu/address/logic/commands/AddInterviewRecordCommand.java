@@ -10,14 +10,14 @@ import seedu.address.model.interview.InterviewRecord;
  * Usage example:
  * <pre>
  * {@code
- * addInterviewRecord id/INT-456 date/2026-04-10 notes/2nd technical round
+ * add-i id/I-001 d/2026-04-10 nt/2nd technical round
  * }
  * </pre>
  * This command checks for duplicate interview IDs before adding the record.
  */
 public class AddInterviewRecordCommand extends Command {
 
-    public static final String COMMAND_WORD = "addInterviewRecord";
+    public static final String COMMAND_WORD = "add-i";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a new interview record.\n"
             + "Format: " + COMMAND_WORD + " id/ID d/DATE nt/NOTES\n"

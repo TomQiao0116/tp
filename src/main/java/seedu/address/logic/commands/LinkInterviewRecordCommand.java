@@ -5,14 +5,23 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.interview.InterviewRecord;
 import seedu.address.model.person.Person;
 
 /**
- * Adds an interview record to an existing person in the address book.
+ * Adds an {@link InterviewRecord} to an existing person in the address book.
+ * <p>
+ * Usage example:
+ * <pre>
+ * {@code
+ * link-i 1 I-001
+ * }
+ * </pre>
+ * This command links the interview record to a person which both should exist.
  */
 public class LinkInterviewRecordCommand extends Command {
 
-    public static final String COMMAND_WORD = "linkInterviewRecord";
+    public static final String COMMAND_WORD = "link-i";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Links an existing interview record to the person. \n"

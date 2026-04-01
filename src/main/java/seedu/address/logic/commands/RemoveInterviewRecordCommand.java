@@ -8,14 +8,23 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.interview.InterviewRecord;
 import seedu.address.model.person.Person;
 
 /**
- * Deletes an interview record from an existing person in the address book.
+ * Removes an existing {@link InterviewRecord} from a person.
+ * <p>
+ * Usage example:
+ * <pre>
+ * {@code
+ * remove-i 1 I-001
+ * }
+ * </pre>
+ * The interview record this command remove must be linked to the specific person.
  */
 public class RemoveInterviewRecordCommand extends Command {
 
-    public static final String COMMAND_WORD = "removeInterviewRecord";
+    public static final String COMMAND_WORD = "remove-i";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Removes an interview record from the person identified by the index number "
