@@ -87,7 +87,7 @@ public class InterviewEditWindow {
         TextArea notesArea = buildNotesArea(existingNotes);
 
         // --- Hint label ---
-        Label hint = new Label("Enter \u2192 save \u2003\u2003 Shift+Enter \u2192 new line \u2003\u2003 \u00d7 \u2192 discard");
+        Label hint = new Label("Enter -> save          Shift+Enter -> new line          Close Window -> discard");
         hint.setTextFill(COLOR_MUTED);
         hint.setFont(Font.font(MONO, 10));
         hint.setAlignment(Pos.CENTER_RIGHT);
