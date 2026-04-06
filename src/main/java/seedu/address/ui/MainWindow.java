@@ -132,7 +132,8 @@ class MainWindow {
                 person,
                 existingNotes,
                 notes -> {
-                    // Phase 3: saving will be wired here
+                    logic.saveInterviewNotes(person, notes);
+                    updatePersons(logic.getFilteredPersonList());
                 }
         );
         window.showAndWait();
