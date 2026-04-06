@@ -87,7 +87,7 @@ public class InterviewEditWindow {
         TextArea notesArea = buildNotesArea(existingNotes);
 
         // --- Hint label ---
-        Label hint = new Label("Enter \u2192 save \u2003\u2003 Ctrl+Enter \u2192 new line \u2003\u2003 \u00d7 \u2192 discard");
+        Label hint = new Label("Enter \u2192 save \u2003\u2003 Shift+Enter \u2192 new line \u2003\u2003 \u00d7 \u2192 discard");
         hint.setTextFill(COLOR_MUTED);
         hint.setFont(Font.font(MONO, 10));
         hint.setAlignment(Pos.CENTER_RIGHT);
@@ -101,8 +101,8 @@ public class InterviewEditWindow {
         Scene scene = new Scene(root, 600, 500);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                if (event.isControlDown()) {
-                    // Ctrl+Enter: insert newline at caret
+                if (event.isShiftDown()) {
+                    // Shift+Enter: insert newline at caret
                     int pos = notesArea.getCaretPosition();
                     notesArea.insertText(pos, "\n");
                     event.consume();
