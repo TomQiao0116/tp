@@ -4,7 +4,7 @@ skinparam ClassFontColor #000000
 skinparam ClassBorderColor #000000
 skinparam ClassBackgroundColor #FFFFAA
 
-title After user executes `delete-i 1`
+title After command `delete-i 1`
 
 package States {
     class State1 as "<u>ab0:AddressBook</u>"
