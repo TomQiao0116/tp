@@ -135,7 +135,8 @@ public class InterviewEditWindow {
         // Contact fields
         VBox fields = new VBox(4,
                 createField("Phone", person.getPhone().value),
-                createField("Email", person.getEmail().value)
+                createField("Email", person.getEmail().value),
+                createField("Address", person.getAddress().value)               
         );
 
         card.getChildren().addAll(nameLabel, fields);
