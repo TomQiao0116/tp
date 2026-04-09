@@ -3,21 +3,21 @@
 ![Ui](docs/images/Ui.png)
 
 # HRdex
-HRdex is a desktop application designed for **HR managers working in non-IT fields** who need a simple and efficient way to manage employee records.
+HRdex is a desktop application designed for **HR managers working in non-IT fields** who need a simple and efficient way to manage applicant records.
 
-The application is optimized for users who prefer a **Command Line Interface (CLI)** while still benefiting from a graphical interface. HRdex allows HR personnel to quickly add, search, view, and delete employee information without navigating complicated menus.
+The application is optimized for users who prefer a **Command Line Interface (CLI)** while still benefiting from a graphical interface. HRdex allows HR personnel to quickly add, search, view, and delete applicant information without navigating complicated menus.
 
 ---
 
 ## Target Users
 
-HRdex is designed for HR professionals who manage employee information on a daily basis. These users often need to:
+HRdex is designed for CCA leaders and interviewers who manage applicants information on a daily basis. These users often need to:
 
-* Maintain employee contact details
-* Retrieve employee information quickly
-* Manage employee records efficiently
+* Maintain applicant contact details
+* Retrieve applicant information quickly
+* Manage applicant records efficiently
 
-HRdex helps reduce repetitive manual work and simplifies employee data management.
+HRdex helps reduce repetitive manual work and simplifies applicant data management.
 
 ---
 
@@ -27,8 +27,8 @@ Compared with traditional Interview recording system, HRdex:
 
 * Enables **fast keyboard-driven commands**
 * Reduces repetitive data entry
-* Allows quick searching of employee records
-* Helps HR managers manage employee data more efficiently
+* Allows quick searching of applicant records
+* Helps HR managers manage applicant data more efficiently
 
 ---
 
@@ -36,24 +36,24 @@ Compared with traditional Interview recording system, HRdex:
 
 HRdex currently supports the following core features:
 
-### Add Employee
+### Add Applicant
 
-Adds a new employee record to the system.
+Adds a new applicant to the system.
 
 ### Add Name Phone Email
-Provide info related to the employee.
+Provide info related to the applicant.
 
-### List Employees
-Displays all employee records.
+### List Applicants
+Displays all applicant records.
 
-### View Employee Details
-Displays the full details of a selected employee.
+### View Applicant Details
+Displays the full details of a selected applicant.
 
-### Search Employee by Name
-Search for employees using partial name matching.
+### Search Applicant by Name or Tags
+Search for applicants using partial name matching.
 
-### Delete Employee
-Removes an employee record from the system.
+### Delete Applicant
+Removes an applicant record from the system.
 
 ## Project Website
 
