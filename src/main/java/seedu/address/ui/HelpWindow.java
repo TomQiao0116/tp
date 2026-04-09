@@ -38,9 +38,17 @@ public class HelpWindow extends UiPart<Stage> {
             this.description = description;
         }
 
-        public String getCommand() { return command; }
-        public String getFormat() { return format; }
-        public String getDescription() { return description; }
+        public String getCommand() { 
+            return command; 
+        }
+        
+        public String getFormat() { 
+            return format; 
+        }
+        
+        public String getDescription() { 
+            return description; 
+        }
     }
 
     private static final ObservableList<CommandEntry> COMMAND_LIST =
