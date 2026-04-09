@@ -186,41 +186,18 @@ Error Message | Reason
 
 ### Editing an interview record : `edit-i`
 
-Edits the interview record of an applicant in HRdex.
-
-Format: `edit-i INDEX`
-
-* Opens a popup window for the applicant at the specified `INDEX`.
-* The index refers to the index number shown in the displayed applicant list.
-* The index must be a positive integer `1, 2, 3, ...`
-* The popup window allows the user to enter or modify the interview record content for that applicant.
-* The interview record behaves like a memo or note attached to the applicant.
-* If the applicant already has an interview record, the existing content will be shown in the popup window and can be edited.
-
-Examples:
-* `edit-i 1`
-* `find Alex` followed by `edit-i 1`
-
-Expected output:
-
-Error Message | Reason
---------|------------------
-**The person index provided is invalid** | This indicates the `INDEX` provided is invalid.
-**At least one field to edit must be provided.** | This indicates there is no edit details provided.
-**Invalid command format!** <br> **delete: Deletes the person identified by the index number used in the displayed person list.** <br> **Parameters: INDEX (must be a positive integer)** <br> **Example: delete 1** | This indicates there is an eror in the format of the command.
-
-### Editing an interview record : `edit-i`
-
 Edits an interview record of a person on the address book.
 
 Format: `edit-i INDEX`
 
 * Edits the interview record of the person of the specified `INDEX`.
+* Opens a popup window for the applicant at the specified `INDEX`.
+* The popup window allows the user to enter or modify the interview record content for that applicant.
 * The index refers to the index number shown in the displayed person list.
 * The index **must be a positive integer** 1, 2, 3, …​
 * Each person when created is directly linked to an empty interview record so just edit the record instead of adding it.
 * Each changes made for a person is saved automatically and closing the panel saves all the changes.
-* Except the first time, each subsequent time `edit-i` is used on a person opens the saved interview record of the person.
+* If the applicant already has an interview record, the existing content will be shown in the popup window and can be edited.
 
 Examples:
 * `list` followed by `edit-i 2` edits the interview record of the 2nd person in the address book.
@@ -240,6 +217,7 @@ Expected output:
 Error Message | Reason
 --------|------------------
 **The person index provided is invalid** | This indicates the `INDEX` provided is invalid.
+**At least one field to edit must be provided.** | This indicates there is no edit details provided.
 **Invalid command format!** <br> **edit-i: Opens the interview notes editor for the person at the given index.** <br> **Parameters: INDEX (must be a positive integer)** <br> **Example: edit-i 1** | This indicates there is an eror in the format of the command.
 
 ### Deleting an interview record : `delete-i`
