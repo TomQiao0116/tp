@@ -56,3 +56,4 @@ public class InterviewRecordContainsKeywordsPredicate implements Predicate<Perso
                 .toString();
     }
 }
+
