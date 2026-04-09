@@ -1,9 +1,23 @@
-#copyButton, #helpMessage {
-    -fx-text-fill: white;
+#helpWindowContainer {
+    -fx-background-color: #1d1d1d;
+}
+
+#urlBox {
+    -fx-background-color: #2a2a2a;
+    -fx-border-color: #3a3a3a;
+    -fx-border-width: 1 0 0 0;
+}
+
+#helpMessage {
+    -fx-text-fill: #aaaaaa;
+    -fx-font-family: "Monospaced";
+    -fx-font-size: 11px;
 }
 
 #copyButton {
     -fx-background-color: dimgray;
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
 }
 
 #copyButton:hover {
@@ -14,6 +28,61 @@
     -fx-background-color: darkgray;
 }
 
-#helpMessageContainer {
-    -fx-background-color: derive(#1d1d1d, 20%);
+/* TableView dark theme */
+.table-view {
+    -fx-background-color: #1d1d1d;
+    -fx-border-color: transparent;
+    -fx-table-cell-border-color: #2e2e2e;
+    -fx-font-family: "Monospaced";
+    -fx-font-size: 12px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #2a2a2a;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: #2a2a2a;
+    -fx-border-color: #3a3a3a;
+    -fx-border-width: 0 1 1 0;
+    -fx-size: 28px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #00ff99;
+    -fx-font-family: "Monospaced";
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-row-cell {
+    -fx-background-color: #1d1d1d;
+    -fx-border-color: #2e2e2e;
+    -fx-border-width: 0 0 1 0;
+    -fx-cell-size: 28px;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #232323;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #2e4a3e;
+}
+
+.table-row-cell .table-cell {
+    -fx-text-fill: #e0e0e0;
+    -fx-padding: 4 6 4 6;
+}
+
+/* Highlight the command name column */
+.table-row-cell .table-cell:first-child {
+    -fx-text-fill: #ffcc44;
+    -fx-font-weight: bold;
+}
+
+.table-view .placeholder .label {
+    -fx-text-fill: #666666;
 }
