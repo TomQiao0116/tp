@@ -38,16 +38,16 @@ public class HelpWindow extends UiPart<Stage> {
             this.description = description;
         }
 
-        public String getCommand() { 
-            return command; 
+        public String getCommand() {
+            return command;
         }
         
-        public String getFormat() { 
-            return format; 
+        public String getFormat() {
+            return format;
         }
         
-        public String getDescription() { 
-            return description; 
+        public String getDescription() {
+            return description;
         }
     }
 
