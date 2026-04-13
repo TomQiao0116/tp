@@ -96,7 +96,7 @@ Expected output:
 Error Message | Reason
 --------|------------------
 **This person already exists in the address book** | This indicates a person with the specified `PHONE_NUMBER` already exist.
-**Multiple values specified for the following single-valued field(s): [x/]...** | This indicates there is nultiple value of [x/]... in the use of the command. The command only takes in one of each [x/]... except for tags (t/).
+**Multiple values specified for the following single-valued field(s): [x/]...** | This indicates there is multiple value of [x/]... in the use of the command. The command only takes in one of each [x/]... except for tags (t/).
 **Invalid command format!** <br> **add: Adds a person to the address book. Parameters: n/NAME p/PHONE e/EMAIL a/ADDRESS [t/TAG]...** <br> **Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney** | This indicates there is an error in the format of the command.
 
 ### Listing all persons : `list`
